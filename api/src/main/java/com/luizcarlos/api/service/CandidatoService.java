@@ -45,11 +45,12 @@ public class CandidatoService {
     public CandidatoDTO editarCandidato(UUID id,CandidatoDTO candidatoDTO){
 
        Optional<Candidato> candidatoId = repository.findById(id);
-       Candidato candidato = modelMapper.map(candidatoId,Candidato.class);
+       Candidato candidato = candidatoId.get();
        candidato.setNome(candidatoDTO.getNome());
        candidato.setCargo(candidatoDTO.getCargo());
        candidato.setLegenda(candidatoDTO.getLegenda());
        candidato.setAlteradoEm(candidatoDTO.getAlteradoEm());
+       candidato.setNumero(candidatoDTO.getNumero());
 
        Candidato candidatoAtualizado = repository.save(candidato);
 

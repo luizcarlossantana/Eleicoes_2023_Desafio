@@ -29,6 +29,14 @@ public ResponseEntity<CandidatoDTO> criarCandidato(@RequestBody CandidatoDTO can
 
     return ResponseEntity.status(200).body(candidatoCriado);
 }
+@PutMapping("/atualizar-candidato/{id}")
+@ResponseStatus(HttpStatus.CREATED)
+public ResponseEntity<CandidatoDTO> editarCandidato(@PathVariable UUID id, @RequestBody CandidatoDTO candidato){
+
+    CandidatoDTO candidatoAtualizado = service.editarCandidato(id,candidato);
+
+    return ResponseEntity.status(200).body(candidatoAtualizado);
+}
 
 @GetMapping("/listar")
 @ResponseStatus(HttpStatus.OK)
