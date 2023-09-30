@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -40,6 +41,25 @@ public class CandidatoService {
 
 
     }
+
+    public CandidatoDTO editarCandidato(UUID id,CandidatoDTO candidatoDTO){
+
+       Optional<Candidato> candidatoId = repository.findById(id);
+       Candidato candidato = modelMapper.map(candidatoId,Candidato.class);
+       candidato.setNome(candidatoDTO.getNome());
+       candidato.setCargo(candidatoDTO.getCargo());
+       candidato.setLegenda(candidatoDTO.getLegenda());
+       candidato.setAlteradoEm(candidatoDTO.getAlteradoEm());
+
+       Candidato candidatoAtualizado = repository.save(candidato);
+
+       CandidatoDTO candidatoAtualizadoDTO = modelMapper.map(candidatoAtualizado,CandidatoDTO.class);
+
+       return candidatoAtualizadoDTO;
+
+
+    }
+
 
     public void deletarCandidato(UUID id){
 
