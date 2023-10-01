@@ -25,6 +25,7 @@ CandidatoService service;
 @ResponseStatus(HttpStatus.CREATED)
 public ResponseEntity<CandidatoDTO> criarCandidato(@RequestBody CandidatoDTO candidato){
 
+
     CandidatoDTO candidatoCriado= service.criarCandidato(candidato);
 
     return ResponseEntity.status(200).body(candidatoCriado);

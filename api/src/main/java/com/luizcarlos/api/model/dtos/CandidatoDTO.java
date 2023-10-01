@@ -1,5 +1,6 @@
 package com.luizcarlos.api.model.dtos;
 
+import com.luizcarlos.api.model.Cargo;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,7 +12,7 @@ public class CandidatoDTO {
     private String nome;
     private Integer numero;
     private String legenda;
-    private String cargo;
+    private Cargo cargo;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime criadoEm;
 

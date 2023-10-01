@@ -1,10 +1,12 @@
 package com.luizcarlos.api.service;
 
 import com.luizcarlos.api.model.Candidato;
+import com.luizcarlos.api.model.Cargo;
 import com.luizcarlos.api.model.dtos.CandidatoDTO;
 
 import com.luizcarlos.api.model.dtos.InformacoesCandidatoDTO;
 import com.luizcarlos.api.repository.CandidatoRepository;
+import com.luizcarlos.api.repository.CargoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,12 +25,18 @@ public class CandidatoService {
     ModelMapper modelMapper;
     @Autowired
     CandidatoRepository repository;
+    @Autowired
+    CargoRepository cargoRepository;
 
     public CandidatoDTO criarCandidato(CandidatoDTO candidatoDTO){
+
+        Optional<Cargo> cargo = cargoRepository.findById(candidatoDTO.getCargo().getId());
+
 
         candidatoDTO.setCriadoEm(LocalDateTime.now());
         candidatoDTO.setDeletadoEm (LocalDateTime.now());
         candidatoDTO.setAlteradoEm(LocalDateTime.now());
+        candidatoDTO.setCargo(cargo.get());
 
         Candidato candidato = modelMapper.map(candidatoDTO,Candidato.class);
 
@@ -63,7 +71,7 @@ public class CandidatoService {
 
     }
 
-    public Optional<Candidato> procurarPeloId(UUID id){
+    private Optional<Candidato> procurarPeloId(UUID id){
         Optional<Candidato> candidatoId = repository.findById(id);
         return candidatoId;
     }

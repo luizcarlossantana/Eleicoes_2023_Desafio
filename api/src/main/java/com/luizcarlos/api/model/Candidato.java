@@ -1,14 +1,10 @@
 package com.luizcarlos.api.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -24,7 +20,10 @@ public class Candidato {
     private String nome;
     private Integer numero;
     private String legenda;
-    private String cargo;
+
+    @ManyToOne
+    @JoinColumn(name = "idCargo")
+    private Cargo cargo;
 
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
