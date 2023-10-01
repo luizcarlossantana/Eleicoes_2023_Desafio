@@ -1,9 +1,9 @@
 package com.luizcarlos.api.controller;
 
-import com.luizcarlos.api.model.Candidato;
 
 import com.luizcarlos.api.model.dtos.CandidatoDTO;
-import com.luizcarlos.api.model.dtos.InfomacoesCandidatoDTO;
+
+import com.luizcarlos.api.model.dtos.InformacoesCandidatoDTO;
 import com.luizcarlos.api.service.CandidatoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/candidato")
+@RequestMapping("/candidatos")
 public class CandidatoController {
 
 @Autowired
@@ -29,6 +29,16 @@ public ResponseEntity<CandidatoDTO> criarCandidato(@RequestBody CandidatoDTO can
 
     return ResponseEntity.status(200).body(candidatoCriado);
 }
+
+@GetMapping("/{id}")
+@ResponseStatus(HttpStatus.OK)
+public ResponseEntity<InformacoesCandidatoDTO> buscarPorId(@PathVariable UUID id){
+
+    InformacoesCandidatoDTO candidatoId = service.buscarPorId(id);
+    return ResponseEntity.ok(candidatoId);
+}
+
+
 @PutMapping("/atualizar-candidato/{id}")
 @ResponseStatus(HttpStatus.CREATED)
 public ResponseEntity<CandidatoDTO> editarCandidato(@PathVariable UUID id, @RequestBody CandidatoDTO candidato){
@@ -40,7 +50,7 @@ public ResponseEntity<CandidatoDTO> editarCandidato(@PathVariable UUID id, @Requ
 
 @GetMapping("/listar")
 @ResponseStatus(HttpStatus.OK)
-public ResponseEntity<List<InfomacoesCandidatoDTO>> listarCandidatos(){
+public ResponseEntity<List<InformacoesCandidatoDTO>> listarCandidatos(){
 
 
 

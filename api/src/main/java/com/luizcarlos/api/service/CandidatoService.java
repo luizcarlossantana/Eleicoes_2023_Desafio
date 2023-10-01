@@ -2,12 +2,15 @@ package com.luizcarlos.api.service;
 
 import com.luizcarlos.api.model.Candidato;
 import com.luizcarlos.api.model.dtos.CandidatoDTO;
-import com.luizcarlos.api.model.dtos.InfomacoesCandidatoDTO;
+
+import com.luizcarlos.api.model.dtos.InformacoesCandidatoDTO;
 import com.luizcarlos.api.repository.CandidatoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,7 +26,12 @@ public class CandidatoService {
 
     public CandidatoDTO criarCandidato(CandidatoDTO candidatoDTO){
 
+        candidatoDTO.setCriadoEm(LocalDateTime.now());
+        candidatoDTO.setDeletadoEm (LocalDateTime.now());
+        candidatoDTO.setAlteradoEm(LocalDateTime.now());
+
         Candidato candidato = modelMapper.map(candidatoDTO,Candidato.class);
+
         Candidato candidatoCriado = repository.save(candidato);
         candidatoDTO = modelMapper.map(candidatoCriado,CandidatoDTO.class);
 
@@ -31,25 +39,43 @@ public class CandidatoService {
 
     }
 
-    public List<InfomacoesCandidatoDTO> listarTodosCandidatos(){
+    public List<InformacoesCandidatoDTO> listarTodosCandidatos(){
 
         List<Candidato> candidatos = repository.findAll();
-        List<InfomacoesCandidatoDTO> buscarCandidato =   candidatos.stream()
-                .map(candidato -> modelMapper.map(candidato, InfomacoesCandidatoDTO.class))
+        List<InformacoesCandidatoDTO> buscarCandidato =   candidatos.stream()
+                .map(candidato -> modelMapper.map(candidato, InformacoesCandidatoDTO.class))
                 .collect(Collectors.toList());
         return buscarCandidato;
 
 
     }
 
+    public InformacoesCandidatoDTO buscarPorId(UUID id){
+
+        Candidato candidatoId = procurarPeloId(id).get();
+
+        InformacoesCandidatoDTO candidatoDTO = modelMapper.map(candidatoId,InformacoesCandidatoDTO.class);
+
+        return candidatoDTO;
+
+
+
+
+    }
+
+    public Optional<Candidato> procurarPeloId(UUID id){
+        Optional<Candidato> candidatoId = repository.findById(id);
+        return candidatoId;
+    }
+
     public CandidatoDTO editarCandidato(UUID id,CandidatoDTO candidatoDTO){
 
-       Optional<Candidato> candidatoId = repository.findById(id);
+       Optional<Candidato> candidatoId = procurarPeloId(id);
        Candidato candidato = candidatoId.get();
        candidato.setNome(candidatoDTO.getNome());
        candidato.setCargo(candidatoDTO.getCargo());
        candidato.setLegenda(candidatoDTO.getLegenda());
-       candidato.setAlteradoEm(candidatoDTO.getAlteradoEm());
+       candidato.setAlteradoEm(LocalDateTime.now());
        candidato.setNumero(candidatoDTO.getNumero());
 
        Candidato candidatoAtualizado = repository.save(candidato);
