@@ -2,7 +2,6 @@ package com.luizcarlos.api.service;
 
 
 import com.luizcarlos.api.model.Cargo;
-
 import com.luizcarlos.api.model.dtos.CargoDTO;
 import com.luizcarlos.api.repository.CargoRepository;
 import org.modelmapper.ModelMapper;

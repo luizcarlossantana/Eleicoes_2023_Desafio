@@ -5,11 +5,14 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.luizcarlos.api.exception.VotoDuplicadoException;
+import com.luizcarlos.api.model.Candidato;
+import com.luizcarlos.api.model.Cargo;
 import com.luizcarlos.api.model.Eleitor;
 import com.luizcarlos.api.model.dtos.EleitorDTO;
 import com.luizcarlos.api.model.dtos.InformacoesEleitorDTO;
+import com.luizcarlos.api.repository.CargoRepository;
 import com.luizcarlos.api.repository.EleitorRepository;
-import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,13 +22,22 @@ import org.springframework.stereotype.Service;
 public class EleitorService {
 
     @Autowired
-    ModelMapper modelMapper;
+    private  ModelMapper modelMapper;
 
     @Autowired
     private EleitorRepository repository;
 
+    @Autowired
+    private CargoRepository cargoRepository;
+
 
     public EleitorDTO criarEleitor(EleitorDTO eleitorDTO) {
+
+        validarEleitor(eleitorDTO);
+
+        Optional<Cargo> cargo = cargoRepository.findById(eleitorDTO.getCargo().getId());
+        eleitorDTO.setCargo(cargo.get());
+
 
         Eleitor eleitor = modelMapper.map(eleitorDTO, Eleitor.class);
         Eleitor eleitorCriado = repository.save(eleitor);
@@ -62,6 +74,19 @@ public class EleitorService {
     public void deletarEleitor(UUID id) {
 
         repository.deleteById(id);
+    }
+
+    private void validarEleitor(EleitorDTO eleitorDTO){
+
+
+        String eleitor = eleitorDTO.getCpf();
+        List<Eleitor> eleitoresExistente = repository.findAll();
+
+        for (Eleitor eleitorDaLista : eleitoresExistente) {
+            if (eleitorDaLista.getCpf().equals(eleitor)) {
+                throw new VotoDuplicadoException("Já existe um eleitor com essas caracteristicas.");
+            }
+        }
     }
 
 }

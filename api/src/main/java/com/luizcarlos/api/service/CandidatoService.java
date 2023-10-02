@@ -1,7 +1,9 @@
 package com.luizcarlos.api.service;
 
+import com.luizcarlos.api.exception.VotoDuplicadoException;
 import com.luizcarlos.api.model.Candidato;
 import com.luizcarlos.api.model.Cargo;
+import com.luizcarlos.api.model.Votos;
 import com.luizcarlos.api.model.dtos.CandidatoDTO;
 
 import com.luizcarlos.api.model.dtos.InformacoesCandidatoDTO;
@@ -30,8 +32,9 @@ public class CandidatoService {
 
     public CandidatoDTO criarCandidato(CandidatoDTO candidatoDTO){
 
-        Optional<Cargo> cargo = cargoRepository.findById(candidatoDTO.getCargo().getId());
+        validarCandidato(candidatoDTO);
 
+        Optional<Cargo> cargo = cargoRepository.findById(candidatoDTO.getCargo().getId());
 
         candidatoDTO.setCriadoEm(LocalDateTime.now());
         candidatoDTO.setDeletadoEm (LocalDateTime.now());
@@ -74,6 +77,18 @@ public class CandidatoService {
     private Optional<Candidato> procurarPeloId(UUID id){
         Optional<Candidato> candidatoId = repository.findById(id);
         return candidatoId;
+    }
+
+    private void validarCandidato(CandidatoDTO candidatoDTO){
+        Integer candidato = candidatoDTO.getNumero();
+        List<Candidato> candidatosExistente = repository.findAll();
+
+        for (Candidato candidatoDaLista : candidatosExistente) {
+            if (candidatoDaLista.getNumero().equals(candidato)) {
+                throw new VotoDuplicadoException("Já existe um candidato com essas caracteristicas.");
+            }
+        }
+
     }
 
     public CandidatoDTO editarCandidato(UUID id,CandidatoDTO candidatoDTO){

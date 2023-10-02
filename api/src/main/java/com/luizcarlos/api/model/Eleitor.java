@@ -30,7 +30,7 @@ public class Eleitor {
     private String nome;
 
 
-    private Long cpf;
+    private String cpf;
 
     @ManyToOne
     @JoinColumn(name = "idCargo")

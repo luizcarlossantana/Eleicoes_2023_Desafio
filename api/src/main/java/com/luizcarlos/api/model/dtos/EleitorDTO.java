@@ -15,8 +15,8 @@ public class EleitorDTO {
 
     private UUID id;
     private String nome;
-    private Integer cpf;
-    private UUID cargo;
+    private String cpf;
+    private Cargo cargo;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime criadoEm;
