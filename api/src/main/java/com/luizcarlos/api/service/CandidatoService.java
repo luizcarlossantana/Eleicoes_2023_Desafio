@@ -1,11 +1,9 @@
 package com.luizcarlos.api.service;
 
-import com.luizcarlos.api.exception.VotoDuplicadoException;
+import com.luizcarlos.api.exception.IdNaoEncontradoException;
 import com.luizcarlos.api.model.Candidato;
 import com.luizcarlos.api.model.Cargo;
-import com.luizcarlos.api.model.Votos;
 import com.luizcarlos.api.model.dtos.CandidatoDTO;
-
 import com.luizcarlos.api.model.dtos.InformacoesCandidatoDTO;
 import com.luizcarlos.api.repository.CandidatoRepository;
 import com.luizcarlos.api.repository.CargoRepository;
@@ -13,12 +11,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class CandidatoService {
@@ -53,10 +50,15 @@ public class CandidatoService {
     public List<InformacoesCandidatoDTO> listarTodosCandidatos(){
 
         List<Candidato> candidatos = repository.findAll();
-        List<InformacoesCandidatoDTO> buscarCandidato =   candidatos.stream()
-                .map(candidato -> modelMapper.map(candidato, InformacoesCandidatoDTO.class))
-                .collect(Collectors.toList());
+        List<InformacoesCandidatoDTO> buscarCandidato = new ArrayList<>();
+
+        for (Candidato candidato : candidatos) {
+            InformacoesCandidatoDTO dto = modelMapper.map(candidato, InformacoesCandidatoDTO.class);
+            buscarCandidato.add(dto);
+        }
+
         return buscarCandidato;
+
 
 
     }
@@ -76,7 +78,12 @@ public class CandidatoService {
 
     private Optional<Candidato> procurarPeloId(UUID id){
         Optional<Candidato> candidatoId = repository.findById(id);
-        return candidatoId;
+
+        if (candidatoId.isPresent()) {
+            return candidatoId;
+        } else {
+            throw new IdNaoEncontradoException("Candidato não encontrado");
+        }
     }
 
     private void validarCandidato(CandidatoDTO candidatoDTO){
@@ -85,7 +92,7 @@ public class CandidatoService {
 
         for (Candidato candidatoDaLista : candidatosExistente) {
             if (candidatoDaLista.getNumero().equals(candidato)) {
-                throw new VotoDuplicadoException("Já existe um candidato com essas caracteristicas.");
+                throw new IdNaoEncontradoException("Já existe um candidato com essas caracteristicas.");
             }
         }
 

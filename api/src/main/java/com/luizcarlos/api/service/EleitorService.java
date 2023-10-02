@@ -1,12 +1,7 @@
 package com.luizcarlos.api.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
+import com.luizcarlos.api.exception.IdNaoEncontradoException;
 import com.luizcarlos.api.exception.VotoDuplicadoException;
-import com.luizcarlos.api.model.Candidato;
 import com.luizcarlos.api.model.Cargo;
 import com.luizcarlos.api.model.Eleitor;
 import com.luizcarlos.api.model.dtos.EleitorDTO;
@@ -16,6 +11,11 @@ import com.luizcarlos.api.repository.EleitorRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -46,12 +46,25 @@ public class EleitorService {
         return eleitorDTO;
     }
 
+    public InformacoesEleitorDTO buscarPorId(UUID id) {
+        Optional<Eleitor> eleitor = procurarPeloId(id);
+
+        InformacoesEleitorDTO eleitorDTO = modelMapper.map(eleitor, InformacoesEleitorDTO.class);
+
+        return eleitorDTO;
+    }
+
     public List<InformacoesEleitorDTO> listarTodosEleitores() {
 
         List<Eleitor> eleitores = repository.findAll();
-        List<InformacoesEleitorDTO> buscarEleitor = eleitores.stream()
-                .map(eleitor -> modelMapper.map(eleitor, InformacoesEleitorDTO.class))
-                .collect(Collectors.toList());
+        List<InformacoesEleitorDTO> buscarEleitor = new ArrayList<>();
+
+        for (Eleitor eleitor : eleitores) {
+            InformacoesEleitorDTO dto = modelMapper.map(eleitor, InformacoesEleitorDTO.class);
+            buscarEleitor.add(dto);
+        }
+
+
 
         return buscarEleitor;
     }
@@ -87,6 +100,17 @@ public class EleitorService {
                 throw new VotoDuplicadoException("Já existe um eleitor com essas caracteristicas.");
             }
         }
+    }
+
+    private Optional<Eleitor> procurarPeloId(UUID id){
+        Optional<Eleitor> eleitorId  = repository.findById(id);
+
+        if (eleitorId.isPresent()) {
+            return eleitorId;
+        } else {
+            throw new IdNaoEncontradoException("Eleitor não encontrado");
+        }
+
     }
 
 }

@@ -45,6 +45,14 @@ public class EleitorController {
         return ResponseEntity.ok(service.listarTodosEleitores());
     }
 
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<InformacoesEleitorDTO> buscarPorId(@PathVariable UUID id){
+
+        InformacoesEleitorDTO candidatoId = service.buscarPorId(id);
+        return ResponseEntity.ok(candidatoId);
+    }
+
     @DeleteMapping("/deletar/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deletarEleitor(@PathVariable UUID id) {
