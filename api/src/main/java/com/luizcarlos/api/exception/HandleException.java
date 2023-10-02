@@ -17,4 +17,11 @@ public class HandleException {
 
 
     }
+
+    @ExceptionHandler(IdNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> idNaoEncontradoException(IdNaoEncontradoException exception) {
+        return ResponseEntity.badRequest().body(exception.getMessage());
+
+    }
 }
