@@ -5,6 +5,7 @@ import com.luizcarlos.api.model.Candidato;
 import com.luizcarlos.api.model.Cargo;
 import com.luizcarlos.api.model.dtos.CandidatoDTO;
 import com.luizcarlos.api.model.dtos.InformacoesCandidatoDTO;
+import com.luizcarlos.api.model.dtos.InformacoesVotosDTO;
 import com.luizcarlos.api.repository.CandidatoRepository;
 import com.luizcarlos.api.repository.CargoRepository;
 import org.modelmapper.ModelMapper;
@@ -62,6 +63,11 @@ public class CandidatoService {
 
 
     }
+    
+
+        
+        
+
 
     public InformacoesCandidatoDTO buscarPorId(UUID id){
 
