@@ -120,9 +120,7 @@ public class VotosService {
 }
 
 
-    public List<InformacoesVotosDTO> contarVotosPorCandidato() {
-        return repository.contarVotosPorCandidato();
-    }
+
 
 
     private void validarVotoDoEleitor(VotosDTO votoDTO) throws VotoDuplicadoException {
