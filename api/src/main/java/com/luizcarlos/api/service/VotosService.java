@@ -63,7 +63,7 @@ public class VotosService {
         List<InformacoesVotosDTO> listaDosVencedores = new ArrayList<>();
         List<Candidato> listaCandidatos = candidatoRepository.findAll();
         List<Votos> listaVotos = repository.findAll();
-        List<InformacoesVotosDTO> lista = new ArrayList<>();
+
 
         for (Candidato candidato : listaCandidatos) {
             UUID idCandidato = candidato.getId();
@@ -96,6 +96,15 @@ public class VotosService {
 
 
                listaDosVencedores.add(candidato);
+
+                for (InformacoesVotosDTO novoConcorrente:listaDeInformacoesVotos) {
+
+                    if (candidato.getIdCargo() == novoConcorrente.getIdCargo()){
+
+                        listaDeInformacoesVotos.remove(concorrente);
+                    }
+
+                }
 
 
 
