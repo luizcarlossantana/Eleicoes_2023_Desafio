@@ -1,0 +1,11 @@
+
+€
+java:S1488¿"bImmediately return this expression instead of assigning it to the temporary variable "candidatos".(¶Ë¢Ü8†æ˜¢²1
+t
+java:S3776?"RRefactor this method to reduce its Cognitive Complexity from 21 to the 15 allowed.(ùöÍøÿÿÿÿ8¢ç˜¢²1
+Z
+java:S1155g">Use isEmpty() to check whether the collection is empty or not.(€ÝÓ:8¥ç˜¢²1
+]
+java:S1128";Remove this unused import 'com.luizcarlos.api.model.Cargo'.(¾¤©öùÿÿÿÿ8¯Ãº¨²1
+X
+java:S1144½":Remove this unused private "listarTodosCandidatos" method.(»‹ê­8«ç˜¢²1

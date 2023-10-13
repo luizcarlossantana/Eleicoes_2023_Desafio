@@ -8,6 +8,7 @@ import com.luizcarlos.api.model.Eleitor;
 import com.luizcarlos.api.model.Votos;
 import com.luizcarlos.api.model.dtos.*;
 import com.luizcarlos.api.repository.CandidatoRepository;
+import com.luizcarlos.api.repository.CargoRepository;
 import com.luizcarlos.api.repository.EleitorRepository;
 import com.luizcarlos.api.repository.VotosRepository;
 import org.modelmapper.ModelMapper;
@@ -25,6 +26,8 @@ public class VotosService {
     private CandidatoRepository candidatoRepository;
     @Autowired
     private EleitorRepository eleitorRepository;
+    @Autowired
+    private CargoRepository cargoRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -63,7 +66,7 @@ public class VotosService {
         List<InformacoesVotosDTO> listaDosVencedores = new ArrayList<>();
         List<Candidato> listaCandidatos = candidatoRepository.findAll();
         List<Votos> listaVotos = repository.findAll();
-
+        List<List<InformacoesVotosDTO>> listasPorCargo = new ArrayList<>();
 
         for (Candidato candidato : listaCandidatos) {
             UUID idCandidato = candidato.getId();
@@ -83,38 +86,49 @@ public class VotosService {
             contagemDTO.setVotos(contagemDeVotos);
 
             listaDeInformacoesVotos.add(contagemDTO);
+
+
         }
 
-        InformacoesVotosDTO candidato = listaDeInformacoesVotos.get(1);
 
 
-        for (InformacoesVotosDTO concorrente : listaDeInformacoesVotos) {
+        for (InformacoesVotosDTO dto : listaDeInformacoesVotos) {
+            UUID idCargo = dto.getIdCargo();
 
-            if (candidato.getIdCargo() == concorrente.getIdCargo() && candidato.getVotos()<= concorrente.getVotos()) {
+            boolean listaEncontrada = false;
 
-                candidato = concorrente;
-
-
-               listaDosVencedores.add(candidato);
-
-                for (InformacoesVotosDTO novoConcorrente:listaDeInformacoesVotos) {
-
-                    if (candidato.getIdCargo() == novoConcorrente.getIdCargo()){
-
-                        listaDeInformacoesVotos.remove(concorrente);
-                    }
-
+            // Itera sobre as listas existentes
+            for (List<InformacoesVotosDTO> lista : listasPorCargo) {
+                // Se a lista não estiver vazia e o ID do cargo corresponder, adiciona o DTO
+                if (lista.size() > 0 && lista.get(0).getIdCargo() == idCargo) {
+                    lista.add(dto);
+                    listaEncontrada = true;
+                    break;
                 }
+            }
 
+            // Se não encontrou uma lista para o cargo, cria uma nova
+            if (!listaEncontrada) {
+                List<InformacoesVotosDTO> novaLista = new ArrayList<>();
+                novaLista.add(dto);
+                listasPorCargo.add(novaLista);
+            }
+        }
 
+        for (List<InformacoesVotosDTO> concorrente: listasPorCargo) {
+
+            InformacoesVotosDTO comparante = concorrente.get(1);
+            for (InformacoesVotosDTO  rival: concorrente) {
+
+                if (rival.getVotos()>= comparante.getVotos()){
+                    comparante = rival;
+
+                    listaDosVencedores.add(comparante);
+                }
 
             }
 
-
-
         }
-
-
 
 
 
@@ -124,6 +138,8 @@ public class VotosService {
 
 
         return listaDosVencedores;
+
+
 
 
 }
