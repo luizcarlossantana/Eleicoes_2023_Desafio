@@ -1,7 +1,7 @@
 package com.luizcarlos.api.controller;
 
-import com.luizcarlos.api.model.dtos.CargoDTO;
-import com.luizcarlos.api.model.dtos.InformacoesCargosDTO;
+import com.luizcarlos.api.model.dtos.cargoDTO.CargoDTO;
+import com.luizcarlos.api.model.dtos.cargoDTO.InformacoesCargosDTO;
 import com.luizcarlos.api.service.CargoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

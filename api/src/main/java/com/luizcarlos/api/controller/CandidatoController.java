@@ -1,9 +1,9 @@
 package com.luizcarlos.api.controller;
 
 
-import com.luizcarlos.api.model.dtos.CandidatoDTO;
+import com.luizcarlos.api.model.dtos.candidatoDTO.CandidatoDTO;
 
-import com.luizcarlos.api.model.dtos.InformacoesCandidatoDTO;
+import com.luizcarlos.api.model.dtos.candidatoDTO.InformacoesCandidatoDTO;
 import com.luizcarlos.api.service.CandidatoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

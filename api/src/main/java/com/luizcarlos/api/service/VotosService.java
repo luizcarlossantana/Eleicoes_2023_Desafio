@@ -1,12 +1,14 @@
 package com.luizcarlos.api.service;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.UUIDDeserializer;
 import com.luizcarlos.api.exception.IdNaoEncontradoException;
 import com.luizcarlos.api.exception.VotoDuplicadoException;
 import com.luizcarlos.api.model.Candidato;
-import com.luizcarlos.api.model.Cargo;
 import com.luizcarlos.api.model.Eleitor;
 import com.luizcarlos.api.model.Votos;
-import com.luizcarlos.api.model.dtos.*;
+import com.luizcarlos.api.model.dtos.votosDTO.InformacoesVotosDTO;
+import com.luizcarlos.api.model.dtos.votosDTO.VotosDTO;
 import com.luizcarlos.api.repository.CandidatoRepository;
 import com.luizcarlos.api.repository.CargoRepository;
 import com.luizcarlos.api.repository.EleitorRepository;
@@ -15,7 +17,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class VotosService {
@@ -33,7 +38,7 @@ public class VotosService {
     private ModelMapper modelMapper;
 
 
-    public VotosDTO criarVotos(VotosDTO votoDTO, UUID idEleitor) {
+    public VotosDTO criarVotos(VotosDTO votoDTO, @JsonDeserialize(using = UUIDDeserializer.class) UUID idEleitor) {
 
         validarVotoDoEleitor(votoDTO);
 
@@ -52,25 +57,17 @@ public class VotosService {
     }
 
 
-    public List<InformacoesVotosDTO> buscarVencedorPorCargo() {
+    public List<List<InformacoesVotosDTO>> buscarCandidatosPorCargo(){
 
-
-        return listaDosVencedoresDTO();
-
-
-    }
-
-    private List<InformacoesVotosDTO> listaDosVencedoresDTO() {
 
         List<InformacoesVotosDTO> listaDeInformacoesVotos = new ArrayList<>();
-        List<InformacoesVotosDTO> listaDosVencedores = new ArrayList<>();
         List<Candidato> listaCandidatos = candidatoRepository.findAll();
         List<Votos> listaVotos = repository.findAll();
         List<List<InformacoesVotosDTO>> listasPorCargo = new ArrayList<>();
 
         for (Candidato candidato : listaCandidatos) {
             UUID idCandidato = candidato.getId();
-            long contagemDeVotos = 0;
+            Integer contagemDeVotos = 0;
 
             for (Votos voto : listaVotos) {
                 if (idCandidato.equals(voto.getCandidato().getId())) {
@@ -81,8 +78,8 @@ public class VotosService {
             InformacoesVotosDTO contagemDTO = new InformacoesVotosDTO();
             contagemDTO.setIdCargo(candidato.getCargo().getId());
             contagemDTO.setNomeCargo(candidato.getCargo().getNome());
-            contagemDTO.setIdCandidatoVencedor(idCandidato);
-            contagemDTO.setNomeCandidatoVencedor(candidato.getNome());
+            contagemDTO.setIdCandidato(idCandidato);
+            contagemDTO.setNomeCandidato(candidato.getNome());
             contagemDTO.setVotos(contagemDeVotos);
 
             listaDeInformacoesVotos.add(contagemDTO);
@@ -114,6 +111,13 @@ public class VotosService {
                 listasPorCargo.add(novaLista);
             }
         }
+        return listasPorCargo;
+}
+
+    public List<InformacoesVotosDTO> buscarVencedorPorCargo() {
+
+        List<InformacoesVotosDTO> listaDosVencedores = new ArrayList<>();
+       List<List<InformacoesVotosDTO>> listasPorCargo = buscarCandidatosPorCargo();
 
         for (List<InformacoesVotosDTO> concorrente: listasPorCargo) {
 
@@ -125,23 +129,9 @@ public class VotosService {
 
                     listaDosVencedores.add(comparante);
                 }
-
             }
-
         }
-
-
-
-
-
-
-
-
         return listaDosVencedores;
-
-
-
-
 }
 
 
@@ -152,10 +142,13 @@ public class VotosService {
 
 
         UUID eleitor = votoDTO.getEleitor().getId();
+        Candidato candidato = procurarCandidatoPorId(votoDTO.getCandidato().getId()).get();
         List<Votos> votosExistente = repository.findAll();
 
         for (Votos votosDaLista : votosExistente) {
-            if (votosDaLista.getEleitor().getId().equals(eleitor)) {
+
+            if (
+                    votosDaLista.getEleitor().getId().equals(eleitor) && votosDaLista.getCandidato().getCargo().getId().equals(candidato.getCargo().getId()) ) {
                 throw new VotoDuplicadoException("Já existe um voto para este eleitor.");
             }
         }

@@ -1,6 +1,7 @@
 package com.luizcarlos.api.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,13 +19,16 @@ public class Votos {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime data;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "idCandidato")
     private Candidato candidato;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "idEleitor")
     private Eleitor eleitor;

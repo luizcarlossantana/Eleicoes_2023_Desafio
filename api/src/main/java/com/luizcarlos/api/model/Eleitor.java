@@ -3,6 +3,9 @@ package com.luizcarlos.api.model;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.UUIDDeserializer;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -25,11 +28,20 @@ public class Eleitor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @JsonDeserialize(using = UUIDDeserializer.class)
     private UUID id;
 
+    @NotNull
     private String nome;
-
-
+    @NotNull
+    private String email;
+    @NotNull
+    private String whatsapp;
+    @NotNull
+    private String estado;
+    @NotNull
+    private String cidade;
+    @NotNull
     private String cpf;
 
     @ManyToOne

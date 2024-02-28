@@ -1,9 +1,8 @@
 package com.luizcarlos.api.controller;
 
-import com.luizcarlos.api.model.dtos.InformacoesVotosDTO;
-import com.luizcarlos.api.model.dtos.VotosDTO;
+import com.luizcarlos.api.model.dtos.votosDTO.InformacoesVotosDTO;
+import com.luizcarlos.api.model.dtos.votosDTO.VotosDTO;
 import com.luizcarlos.api.service.VotosService;
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +28,19 @@ public class VotosController {
 
     }
 
-    @GetMapping("/candidato/relatorio")
+    @GetMapping("/relatorio/cargo/candidatos-vencedores")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<InformacoesVotosDTO>> buscarVencedorPorCargo(){
 
 
         return ResponseEntity.ok(service.buscarVencedorPorCargo());
+    }
+
+    @GetMapping("/relatorio/candidatos-Cargos")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<List<InformacoesVotosDTO>>> buscarCandidatosPorCargo(){
+
+
+        return ResponseEntity.ok(service.buscarCandidatosPorCargo());
     }
 }

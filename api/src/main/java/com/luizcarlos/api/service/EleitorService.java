@@ -4,14 +4,15 @@ import com.luizcarlos.api.exception.IdNaoEncontradoException;
 import com.luizcarlos.api.exception.VotoDuplicadoException;
 import com.luizcarlos.api.model.Cargo;
 import com.luizcarlos.api.model.Eleitor;
-import com.luizcarlos.api.model.dtos.EleitorDTO;
-import com.luizcarlos.api.model.dtos.InformacoesEleitorDTO;
+import com.luizcarlos.api.model.dtos.eleitorDTO.EleitorDTO;
+import com.luizcarlos.api.model.dtos.eleitorDTO.InformacoesEleitorDTO;
 import com.luizcarlos.api.repository.CargoRepository;
 import com.luizcarlos.api.repository.EleitorRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,8 +36,21 @@ public class EleitorService {
 
         validarEleitor(eleitorDTO);
 
-        Optional<Cargo> cargo = cargoRepository.findById(eleitorDTO.getCargo().getId());
-        eleitorDTO.setCargo(cargo.get());
+        eleitorDTO.setCriadoEm(LocalDateTime.now());
+        eleitorDTO.setDeletadoEm (LocalDateTime.now());
+        eleitorDTO.setAlteradoEm(LocalDateTime.now());
+
+
+        List<Cargo> listaCargos = cargoRepository.findAll();
+        for(Cargo cargo : listaCargos){
+
+            if (cargo.getNome().equals("CIDADAO")){
+
+                eleitorDTO.setCargo(cargo);
+            }
+
+        }
+
 
 
         Eleitor eleitor = modelMapper.map(eleitorDTO, Eleitor.class);
@@ -72,6 +86,10 @@ public class EleitorService {
     public EleitorDTO editarEleitor(UUID id, EleitorDTO eleitorDTO) {
 
         Optional<Eleitor> eleitorId = repository.findById(id);
+
+        eleitorDTO.setCriadoEm(LocalDateTime.now());
+        eleitorDTO.setDeletadoEm (LocalDateTime.now());
+        eleitorDTO.setAlteradoEm(LocalDateTime.now());
 
         Eleitor eleitor = modelMapper.map(eleitorId, Eleitor.class);
         eleitor.setNome(eleitorDTO.getNome());

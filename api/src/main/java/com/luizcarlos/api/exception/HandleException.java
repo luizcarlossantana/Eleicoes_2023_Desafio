@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class HandleException {
 
     @ExceptionHandler(VotoDuplicadoException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<String> handleVotoDuplicadoException(VotoDuplicadoException exception) {
-        return ResponseEntity.badRequest().body(exception.getMessage());
+        return ResponseEntity.status(404).body(exception.getMessage());
 
 
     }

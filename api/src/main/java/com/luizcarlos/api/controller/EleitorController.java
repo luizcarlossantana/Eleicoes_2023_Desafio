@@ -1,11 +1,13 @@
 package com.luizcarlos.api.controller;
 
-import com.luizcarlos.api.model.dtos.EleitorDTO;
-import com.luizcarlos.api.model.dtos.InformacoesEleitorDTO;
+import com.luizcarlos.api.model.dtos.eleitorDTO.EleitorDTO;
+import com.luizcarlos.api.model.dtos.eleitorDTO.InformacoesEleitorDTO;
 import com.luizcarlos.api.service.EleitorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/eleitores")
+@Validated
 public class EleitorController {
 
     @Autowired
@@ -22,7 +25,7 @@ public class EleitorController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<EleitorDTO> criarEleitor(@RequestBody EleitorDTO eleitor) {
+    public ResponseEntity<EleitorDTO> criarEleitor(@Valid @RequestBody EleitorDTO eleitor) {
 
         EleitorDTO eleitorCriado = service.criarEleitor(eleitor);
 
