@@ -44,6 +44,8 @@ public class Eleitor {
     @NotNull
     private String cpf;
 
+    private String senha;
+
     @ManyToOne
     @JoinColumn(name = "idCargo")
     private Cargo cargo;

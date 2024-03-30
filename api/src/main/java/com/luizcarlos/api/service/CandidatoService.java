@@ -73,14 +73,12 @@ public class CandidatoService {
         Candidato candidatoId = procurarPeloId(id).get();
 
         InformacoesCandidatoDTO candidatoDTO = modelMapper.map(candidatoId,InformacoesCandidatoDTO.class);
-
         return candidatoDTO;
 
-
-
-
     }
-
+public void testandoCandidato(){
+    System.out.println(repository.findCandidatoByNomeStartingWith("L"));
+}
     private Optional<Candidato> procurarPeloId(UUID id){
         Optional<Candidato> candidatoId = repository.findById(id);
 
