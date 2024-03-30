@@ -1,7 +1,6 @@
-package com.luizcarlos.api.model.dtos.candidatoDTO;
+package com.luizcarlos.api.dtos.candidatoDTO;
 
 import com.luizcarlos.api.model.Cargo;
-import com.luizcarlos.api.model.dtos.cargoDTO.CargoDTO;
 import lombok.Data;
 
 import java.util.UUID;

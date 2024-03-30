@@ -1,4 +1,4 @@
-package com.luizcarlos.api.model.dtos.votosDTO;
+package com.luizcarlos.api.dtos.votosDTO;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.UUIDDeserializer;

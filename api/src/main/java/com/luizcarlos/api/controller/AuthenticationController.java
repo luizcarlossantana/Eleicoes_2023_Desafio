@@ -1,9 +1,9 @@
 package com.luizcarlos.api.controller;
 
 import com.luizcarlos.api.model.Users;
-import com.luizcarlos.api.model.dtos.AuthenticationDTO;
-import com.luizcarlos.api.model.dtos.LoginResponseDTO;
-import com.luizcarlos.api.model.dtos.RegisterDTO;
+import com.luizcarlos.api.dtos.securityDTO.AuthenticationDTO;
+import com.luizcarlos.api.dtos.securityDTO.LoginResponseDTO;
+import com.luizcarlos.api.dtos.securityDTO.RegisterDTO;
 import com.luizcarlos.api.repository.UserRepository;
 import com.luizcarlos.api.service.TokenService;
 import jakarta.validation.Valid;

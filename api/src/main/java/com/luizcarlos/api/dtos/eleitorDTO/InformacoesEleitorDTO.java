@@ -1,4 +1,4 @@
-package com.luizcarlos.api.model.dtos.eleitorDTO;
+package com.luizcarlos.api.dtos.eleitorDTO;
 
 import java.util.UUID;
 

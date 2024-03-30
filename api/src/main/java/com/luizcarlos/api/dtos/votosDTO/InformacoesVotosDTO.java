@@ -1,4 +1,4 @@
-package com.luizcarlos.api.model.dtos.votosDTO;
+package com.luizcarlos.api.dtos.votosDTO;
 
 import com.luizcarlos.api.model.Votos;
 import lombok.Data;

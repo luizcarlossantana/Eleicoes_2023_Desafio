@@ -1,7 +1,7 @@
 package com.luizcarlos.api.controller;
 
-import com.luizcarlos.api.model.dtos.eleitorDTO.EleitorDTO;
-import com.luizcarlos.api.model.dtos.eleitorDTO.InformacoesEleitorDTO;
+import com.luizcarlos.api.dtos.eleitorDTO.EleitorDTO;
+import com.luizcarlos.api.dtos.eleitorDTO.InformacoesEleitorDTO;
 import com.luizcarlos.api.service.EleitorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

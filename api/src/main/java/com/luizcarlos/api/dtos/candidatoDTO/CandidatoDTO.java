@@ -1,15 +1,19 @@
-package com.luizcarlos.api.model.dtos.cargoDTO;
+package com.luizcarlos.api.dtos.candidatoDTO;
 
+import com.luizcarlos.api.model.Cargo;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 @Data
-public class CargoDTO {
-    private UUID id;
 
+public class CandidatoDTO {
+    private UUID id;
     private String nome;
+    private Integer numero;
+    private String legenda;
+    private Cargo cargo;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime criadoEm;
@@ -19,4 +23,5 @@ public class CargoDTO {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime deletadoEm;
+
 }

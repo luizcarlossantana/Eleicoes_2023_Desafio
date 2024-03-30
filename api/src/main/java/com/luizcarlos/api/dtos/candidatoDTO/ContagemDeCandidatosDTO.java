@@ -1,4 +1,4 @@
-package com.luizcarlos.api.model.dtos.candidatoDTO;
+package com.luizcarlos.api.dtos.candidatoDTO;
 
 import lombok.Data;
 

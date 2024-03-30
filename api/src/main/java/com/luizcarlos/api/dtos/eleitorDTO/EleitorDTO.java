@@ -1,4 +1,4 @@
-package com.luizcarlos.api.model.dtos.eleitorDTO;
+package com.luizcarlos.api.dtos.eleitorDTO;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

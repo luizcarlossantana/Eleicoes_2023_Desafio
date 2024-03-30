@@ -2,8 +2,8 @@ package com.luizcarlos.api.service;
 
 import com.luizcarlos.api.exception.IdNaoEncontradoException;
 import com.luizcarlos.api.model.Cargo;
-import com.luizcarlos.api.model.dtos.cargoDTO.CargoDTO;
-import com.luizcarlos.api.model.dtos.cargoDTO.InformacoesCargosDTO;
+import com.luizcarlos.api.dtos.cargoDTO.CargoDTO;
+import com.luizcarlos.api.dtos.cargoDTO.InformacoesCargosDTO;
 import com.luizcarlos.api.repository.CargoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

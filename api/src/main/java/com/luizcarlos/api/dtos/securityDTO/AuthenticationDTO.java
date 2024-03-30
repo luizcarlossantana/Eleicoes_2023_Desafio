@@ -1,4 +1,4 @@
-package com.luizcarlos.api.model.dtos;
+package com.luizcarlos.api.dtos.securityDTO;
 
 import lombok.Data;
 
