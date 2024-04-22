@@ -21,17 +21,24 @@ public class SecurityConfig {
     @Autowired
     SecurityFilter securityFilter ;
 
+    @Autowired
+    CorsConfig corsConfig;
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception{
         return http.authorizeHttpRequests(
           authorizeConfig->{
+
               authorizeConfig.requestMatchers(HttpMethod.POST,"auth/logar").permitAll();
+              authorizeConfig.requestMatchers(HttpMethod.GET,"eleitores/listar").permitAll();
               authorizeConfig.requestMatchers(HttpMethod.POST,"auth/register").hasRole("ADMIN");
               authorizeConfig.anyRequest().authenticated();
           })
+
                 .csrf(crsf->crsf.disable())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(corsConfig.corsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
     @Bean
