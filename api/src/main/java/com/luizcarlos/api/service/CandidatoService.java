@@ -31,17 +31,19 @@ public class CandidatoService {
 
         validarCandidato(candidatoDTO);
 
-        Optional<Cargo> cargo = cargoRepository.findById(candidatoDTO.getCargo().getId());
+        Optional<Cargo> cargo = cargoRepository.findById(candidatoDTO.getCargo());
 
         candidatoDTO.setCriadoEm(LocalDateTime.now());
         candidatoDTO.setDeletadoEm (LocalDateTime.now());
         candidatoDTO.setAlteradoEm(LocalDateTime.now());
-        candidatoDTO.setCargo(cargo.get());
+        candidatoDTO.setCargo(cargo.get().getId());
 
         Candidato candidato = modelMapper.map(candidatoDTO,Candidato.class);
+        candidato.setCargo(cargo.get());
 
         Candidato candidatoCriado = repository.save(candidato);
         candidatoDTO = modelMapper.map(candidatoCriado,CandidatoDTO.class);
+        candidatoDTO.setCargo(candidato.getCargo().getId());
 
         return candidatoDTO;
 
@@ -106,7 +108,7 @@ public void testandoCandidato(){
        Optional<Candidato> candidatoId = procurarPeloId(id);
        Candidato candidato = candidatoId.get();
        candidato.setNome(candidatoDTO.getNome());
-       candidato.setCargo(candidatoDTO.getCargo());
+       candidato.setCargo(null);
        candidato.setLegenda(candidatoDTO.getLegenda());
        candidato.setAlteradoEm(LocalDateTime.now());
        candidato.setNumero(candidatoDTO.getNumero());

@@ -44,5 +44,5 @@ public class Candidato implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime deletadoEm;
 
-    private Votos voto;
+
 }

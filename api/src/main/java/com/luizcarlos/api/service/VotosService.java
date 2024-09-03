@@ -51,6 +51,9 @@ public class VotosService {
 
         Votos voto = modelMapper.map(votoDTO, Votos.class);
         Votos criandoVoto = repository.save(voto);
+
+        eleitor.get().setVotoConcluido(true);
+        eleitorRepository.save(eleitor.get());
         votoDTO = modelMapper.map(criandoVoto, VotosDTO.class);
 
         return votoDTO;

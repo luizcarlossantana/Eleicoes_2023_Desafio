@@ -13,7 +13,7 @@ public class CandidatoDTO {
     private String nome;
     private Integer numero;
     private String legenda;
-    private Cargo cargo;
+    private UUID cargo;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime criadoEm;

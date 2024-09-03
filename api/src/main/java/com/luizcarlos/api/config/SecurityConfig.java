@@ -31,7 +31,7 @@ public class SecurityConfig {
 
               authorizeConfig.requestMatchers(HttpMethod.POST,"auth/logar").permitAll();
               authorizeConfig.requestMatchers(HttpMethod.GET,"eleitores/listar").permitAll();
-              authorizeConfig.requestMatchers(HttpMethod.POST,"auth/register").hasRole("ADMIN");
+              authorizeConfig.requestMatchers(HttpMethod.POST,"auth/register").permitAll();
               authorizeConfig.anyRequest().authenticated();
           })
 

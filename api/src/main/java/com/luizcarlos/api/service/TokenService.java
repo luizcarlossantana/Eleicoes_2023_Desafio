@@ -23,7 +23,6 @@ public class TokenService {
             String token = JWT.create()
                     .withIssuer("eleicao-api")
                     .withSubject(usuario.getUsername())
-                    .withExpiresAt(DataExpiracaoToken())
                     .sign(algorithm);
             return token;
         }catch (JWTCreationException e){

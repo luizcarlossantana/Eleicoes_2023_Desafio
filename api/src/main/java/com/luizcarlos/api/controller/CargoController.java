@@ -18,7 +18,7 @@ public class CargoController {
         @Autowired
         CargoService service;
 
-        @PostMapping
+        @PostMapping("/criar")
         @ResponseStatus(HttpStatus.CREATED)
         public ResponseEntity<CargoDTO> criarCargo(@RequestBody CargoDTO cargo) {
 

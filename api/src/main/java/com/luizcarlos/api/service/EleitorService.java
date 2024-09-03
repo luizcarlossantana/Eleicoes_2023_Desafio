@@ -41,15 +41,7 @@ public class EleitorService {
         eleitorDTO.setAlteradoEm(LocalDateTime.now());
 
 
-        List<Cargo> listaCargos = cargoRepository.findAll();
-        for(Cargo cargo : listaCargos){
 
-            if (cargo.getNome().equals("CIDADAO")){
-
-                eleitorDTO.setCargo(cargo);
-            }
-
-        }
 
 
 

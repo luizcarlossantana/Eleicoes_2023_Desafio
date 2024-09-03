@@ -21,7 +21,7 @@ public class CandidatoController {
 @Autowired
 CandidatoService service;
 
-@PostMapping
+@PostMapping("criar")
 @ResponseStatus(HttpStatus.CREATED)
 public ResponseEntity<CandidatoDTO> criarCandidato(@RequestBody CandidatoDTO candidato){
 

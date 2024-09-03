@@ -46,6 +46,8 @@ public class Eleitor {
 
     private String senha;
 
+    private Boolean votoConcluido;
+
     @ManyToOne
     @JoinColumn(name = "idCargo")
     private Cargo cargo;
