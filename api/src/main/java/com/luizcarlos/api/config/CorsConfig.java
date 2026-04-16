@@ -18,7 +18,7 @@ public class CorsConfig {
         config.setAllowedOriginPatterns(Arrays.asList(
                 "https://front-eleicoes.vercel.app",
                 "http://localhost:5173",
-                "'http://3.222.53.205"
+                "http://3.222.53.205"
 
         ));
         config.addAllowedMethod("*");
