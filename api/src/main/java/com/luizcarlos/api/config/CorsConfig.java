@@ -16,9 +16,10 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOriginPatterns(Arrays.asList(
-//                "https://front-eleicoes.vercel.app",
-//                "http://localhost:5173"
-                "*"
+                "https://front-eleicoes.vercel.app",
+                "http://localhost:5173",
+                "'http://3.222.53.205"
+
         ));
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
